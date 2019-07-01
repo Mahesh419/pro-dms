@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div>
+
+            </div>
+            <div class="card-body">
+                <mat-accordion>
+                   <!-- {index: "AS81267",  (opened)="onPanelOpen(student.index)  name: "Malsha Senavirathna", positionList: Array(1), approved: false} -->
+                    <mat-expansion-panel (opened)="onPanelOpen()"
+                                         (closed)="panelOpenState = false" *ngFor="let location of locations">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ location.username }}
+                        </mat-panel-title>
+                         <mat-panel-description>
+                            {{ location.time.seconds*1000 | date}}
+                        </mat-panel-description>
+                       
+                      </mat-expansion-panel-header>
+                      
+                      <!-- ////////////////////////////////////////////Expansion panel content starts here/////////////////////////////////// -->
+                      <div class="main-content">
+                        <!-- <div class="container-fluid"> -->
+                            <!-- <div class="row">
+                                <div class="col-md-12"> -->
+                                    <div class="card" style="margin-top: -70px; margin-left: 10px; margin-right: 10px;" *ngIf="location">
+                                       <div>
+                                             <div class="row">
+                                                    <div class="col-md-4" style="text-align: left; margin-left: 10px; margin-top: 10px">
+                                                          <label>Username: </label>
+                                                          <p> {{ location.username }} </p>
+                                                          
+                                                    </div>
+                                                    <div class="col-md-3" style="text-align: left; margin-top: 10px">
+                                                            <label>Time: </label>
+                                                            <p> {{ location.time.seconds*1000 | date }} </p>
+                                                      </div>
+                                                      
+                                                </div>
+                                             <!--       <div class="row">
+                                                            <div class="col-md-4" style="text-align: left; margin-left: 10px;">
+                                                                    <label>Degree & Year: </label>
+                                                                    <p> {{ studentModel.degreeType }} Degree ({{ studentModel.year }}) </p>
+                                                              </div>
+                                                              <div class="col-md-3" style="text-align: left;">
+                                                                    <label>Combination: </label>
+                                                                    <p> {{ studentModel.combiantion }} </p>
+                                                              </div>
+                                                              <div class="col-md-2" style="text-align: left;">
+                                                                    <label>GPA: </label>
+                                                                    <p> {{ studentModel.gpa }} </p>
+                                                              </div>   
+                                                            
+                                                </div>
+                                                <div class="row">
+                                                        <div class="col-md-12" style="text-align: left; margin-left: 10px;">
+                                                                <label>Requested positions: </label>
+                                                                <p> {{ student.positionList }} </p>
+                                                          </div>  
+                                                </div> -->
+                                                <!-- ============================= View cv in below row ========================= -->
+                                                <!-- <div class="row" *ngIf="cv"> -->
+                                                    
+                                                    <!-- <div class="card col-md-11" style="margin-left: 37px;">
+                                                        <div>
+                                                            <pdf-viewer [src]="cvURL" 
+                                                                    [render-text]="true"
+                                                                    [autoresize]="true"
+                                                                    style="display: block"
+                                                            ></pdf-viewer>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <button mat-raised-button (click)="approveCV(student)"  class="btn btn-danger" style = "margin-right: 10px;">Approve CV</button>
+                                                <div class="clearfix"></div> -->
+                                       </div>
+                                            
+                                    </div>
+                                <!-- </div>
+                            </div> -->
+                        <!-- </div> -->
+                      </div>
+                      <!-- ////////////////////////////////////////////Expansion panel content ends in here///////////////////////////////// -->
+
+                    </mat-expansion-panel>
+                  </mat-accordion>
+            </div>
+        </div>
+    </div>
+</div>
