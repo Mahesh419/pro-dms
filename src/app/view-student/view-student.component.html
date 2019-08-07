@@ -33,7 +33,11 @@
                                                       </div>
                                                      
                                                 </div>                                                
-                                                <
+                                                <div class="row">
+                                                    <div class="container" *ngIf="downloadURL | async; let url">
+                                                        <img [src]="url" alt="Image from AngularFireStorage" style="max-height: 300px; max-width: 600px; margin-right: 50%">
+                                                      </div>`
+                                                </div>
                                        </div>
                                             
                                     </div>

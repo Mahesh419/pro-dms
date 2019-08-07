@@ -3,5 +3,6 @@ export interface Location{
     username: string,
     time: Date,
     lng: number,
-    lat: number
+    lat: number,
+    url: string
 }

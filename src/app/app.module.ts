@@ -21,6 +21,8 @@ import { MaterialModuleModule } from './material-module.module';
 import { MatProgressBarModule, MatDividerModule, MatIconModule, MatButtonModule, MatRippleModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatTooltipModule, MatStepperModule, MatCardModule, MatDatepickerModule, MatNativeDateModule, MatRadioModule, MatExpansionModule, MatCheckboxModule, MatListModule, MatTabsModule } from '@angular/material';
 import { AuthService } from './service/auth-servise.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from 'angularfire2/storage';  
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 
 @NgModule({
@@ -52,6 +54,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
     MatTabsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
+    AngularFireAuthModule,
   ],
   declarations: [
     AppComponent,
@@ -59,7 +62,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
     LoginComponent,
     
   ],
-  providers: [AuthService, AngularFirestore],
+  providers: [AuthService, AngularFirestore, AngularFireStorage],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

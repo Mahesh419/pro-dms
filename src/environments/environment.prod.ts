@@ -5,7 +5,7 @@ export const environment = {
     authDomain: "dengue-control-app.firebaseapp.com",
     databaseURL: "https://dengue-control-app.firebaseio.com",
     projectId: "dengue-control-app",
-    storageBucket: "",
+    storageBucket: "dengue-control-app.appspot.com",
     messagingSenderId: "999597754718",
     appId: "1:999597754718:web:f2066ae0f714bcd7"
   }

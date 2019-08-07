@@ -13,7 +13,11 @@ import OlPoint from 'ol/geom/Point';
 import Style from 'ol/style/Style'
 import Icon from 'ol/style/Icon';
 import ol from 'openlayers';
-import { fromLonLat } from 'ol/proj'
+import { fromLonLat } from 'ol/proj';
+import { AngularFireStorage } from 'angularfire2/storage';  
+import { Observable } from 'rxjs';
+//import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-view-student',
@@ -31,9 +35,12 @@ export class ViewStudentComponent implements OnInit {
   vectorLayer: OlVectorLayer;
   marker: OlFeature;
   vectorSource: OlVectorSource;
+  downloadURL: Observable<string>;
 
-  constructor(private db : AngularFireDatabase, private firestore : AngularFirestore) {   
-    
+  private user: Observable<firebase.User>;
+  
+  constructor(/*private firebaseAuth: AngularFireAuth,*/ private db : AngularFireDatabase, private firestore : AngularFirestore, private afStorage: AngularFireStorage) {   
+    //this.user = firebaseAuth.authState;
   }
 
   ngOnInit() {
@@ -64,7 +71,12 @@ export class ViewStudentComponent implements OnInit {
       layers: [this.layer],
       view: this.view  
     });
-   
+
+
+    var credential = firebase.auth.EmailAuthProvider.credential('denguecontrolapp1@gmail.com', 'dc1234567!');
+            
+    firebase.auth().signInAndRetrieveDataWithCredential(credential);
+
   }
 
   //7.2906° N, 80.6337° E
@@ -73,7 +85,12 @@ export class ViewStudentComponent implements OnInit {
     return this.firestore.collection('location').snapshotChanges();
   }
 
-  onPanelOpen(curlocations : Location){   
+  onPanelOpen(curlocations : Location){  
+    
+    console.log(`image url: ${curlocations.url}`)
+    
+    this.getProfileImageUrl(curlocations.url);
+
     this.marker = new OlFeature({
       // Added fromLonLat
       geometry: new OlPoint(fromLonLat([curlocations.lat, curlocations.lng]))
@@ -134,6 +151,10 @@ export class ViewStudentComponent implements OnInit {
     this.map.getLayers().forEach(layer => this.map.removeLayer(layer));
     this.map.addLayer(this.layer);
     this.map.setView(this.view);     
+  }
+
+  getProfileImageUrl(url: string) {
+    this.downloadURL = this.afStorage.ref(url).getDownloadURL();
   }
 
 
