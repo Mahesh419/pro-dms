@@ -18,6 +18,7 @@ import { AngularFireStorage } from 'angularfire2/storage';
 import { Observable } from 'rxjs';
 //import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 @Component({
   selector: 'app-view-student',
@@ -41,16 +42,23 @@ export class ViewStudentComponent implements OnInit {
   
   constructor(/*private firebaseAuth: AngularFireAuth,*/ private db : AngularFireDatabase, private firestore : AngularFirestore, private afStorage: AngularFireStorage) {   
     //this.user = firebaseAuth.authState;
+    //this.getLocationList(); 
   }
 
   ngOnInit() {
-    this.getLocationList().subscribe(data => {
+    
+    this.getLocationList(); 
+    var credential = firebase.auth.EmailAuthProvider.credential('sithumi@gmail.com', '12345678');
+            
+    firebase.auth().signInAndRetrieveDataWithCredential(credential);
+
+    /*this.getLocationList().subscribe(data => {
       this.locations = data.map(e => {
         return {          
           ...e.payload.doc.data()
         } as Location;
       })
-    });
+    });*/
 
     this.source = new OlXYZ({
       url: 'http://tile.osm.org/{z}/{x}/{y}.png'
@@ -73,27 +81,55 @@ export class ViewStudentComponent implements OnInit {
     });
 
 
-    var credential = firebase.auth.EmailAuthProvider.credential('denguecontrolapp1@gmail.com', 'dc1234567!');
-            
-    firebase.auth().signInAndRetrieveDataWithCredential(credential);
-
   }
+
+  //public locationList: FirebaseListObservable<Location[]>;
 
   //7.2906° N, 80.6337° E
 
+  //locations = FirebaseListObservable
+
+  public locationList: AngularFireList<Location[]>;
+
   getLocationList(){
-    return this.firestore.collection('location').snapshotChanges();
+    
+    var userId = firebase.auth().currentUser.uid;
+
+    return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+      var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+        console.log(username);
+        console.log(snapshot);
+    });
+
+   /* this.locationList = this.db.list('/users');
+    console.log(this.locationList);
+    return this.locationList;*/
+    
+    // console.log(JSON.stringify(result));
+    // let res = this.firestore.collection('users').snapshotChanges();
+    // res.subscribe(
+    //   data => {
+    //     console.log(data);
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   }
+    // );
+    // return res;
+   
   }
+
+  
 
   onPanelOpen(curlocations : Location){  
     
-    console.log(`image url: ${curlocations.url}`)
+    console.log(`image url: ${curlocations.image}`)
     
-    this.getProfileImageUrl(curlocations.url);
+    this.getProfileImageUrl(curlocations.image);
 
     this.marker = new OlFeature({
       // Added fromLonLat
-      geometry: new OlPoint(fromLonLat([curlocations.lat, curlocations.lng]))
+      geometry: new OlPoint(fromLonLat([curlocations.latitude, curlocations.longitude]))
     });
 
     var featureStyle = new Style({
@@ -123,7 +159,7 @@ export class ViewStudentComponent implements OnInit {
     });
 
     this.view = new OlView({
-      center: fromLonLat([curlocations.lat, curlocations.lng]),
+      center: fromLonLat([curlocations.latitude, curlocations.longitude]),
       zoom: 11
     });
     

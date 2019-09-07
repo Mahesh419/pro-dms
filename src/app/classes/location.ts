@@ -1,8 +1,7 @@
 export interface Location{
-    id: string,
-    username: string,
-    time: Date,
-    lng: number,
-    lat: number,
-    url: string
+    date: string,
+    email: string,
+    image: string,
+    longitude: string,
+    latitude: string
 }
